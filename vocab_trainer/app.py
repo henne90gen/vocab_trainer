@@ -3,6 +3,7 @@ from cement.core.foundation import CementApp
 
 from .signs import signs
 from .vocab import vocab
+from .stats import stats
 
 
 class VocabController(CementBaseController):
@@ -22,8 +23,7 @@ class VocabController(CementBaseController):
 
     @expose(help="")
     def stats(self):
-        # TODO use matplotlib to show statistics
-        pass
+        stats()
 
 
 class VocabApp(CementApp):

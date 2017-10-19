@@ -2,22 +2,7 @@ from random import randrange
 
 from cement.core.exc import CaughtSignal
 
-from .util import Timer
-
-
-def read_vocab():
-    vocab_table = []
-    with open('./vocab.txt', 'r') as f:
-        for line in f.readlines():
-            japanese, german = line.split('|')
-
-            def to_list(word):
-                return list(map(str.strip, word.split(':')))
-
-            japanese = to_list(japanese)
-            german = to_list(german)
-            vocab_table.append((japanese, german))
-    return vocab_table
+from .util import Timer, load_vocab
 
 
 def select_random(arr):
@@ -26,24 +11,25 @@ def select_random(arr):
 
 
 def select_vocab(vocab_table):
-    v_index = randrange(len(vocab_table))
-    rand_vocab = vocab_table[v_index]
+    def rand(arr):
+        index = randrange(len(arr))
+        return arr[index], index
 
-    l_index = randrange(len(rand_vocab))
-    rand_language = rand_vocab[l_index]
+    rand_vocab, v_index = rand(vocab_table)
+    rand_language, l_index = rand(rand_vocab)
+
     if l_index == 0:
         translations = rand_vocab[1]
     else:
         translations = rand_vocab[0]
 
-    w_index = randrange(len(rand_language))
-    word = rand_language[w_index]
+    word, w_index = rand(rand_language)
 
     return word, translations
 
 
 def vocab():
-    vocab_table = read_vocab()
+    vocab_table = load_vocab()
 
     while True:
 
@@ -58,7 +44,7 @@ def vocab():
                 if input_word == ':q':
                     break
                 if input_word == ':r':
-                    vocab_table = read_vocab()
+                    vocab_table = load_vocab()
 
                 if input_word in translations:
                     t.correct()

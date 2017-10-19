@@ -2,6 +2,21 @@ import os
 from datetime import datetime
 
 
+def load_vocab():
+    vocab_table = []
+    with open('./vocab.txt', 'r') as f:
+        for line in f.readlines():
+            japanese, german = line.split('|')
+
+            def to_list(word):
+                return list(map(str.strip, word.split(':')))
+
+            japanese = to_list(japanese)
+            german = to_list(german)
+            vocab_table.append((japanese, german))
+    return vocab_table
+
+
 def load_times():
     times = {}
 
@@ -10,11 +25,11 @@ def load_times():
 
     with open('./times.txt', 'r') as f:
         for line in f.readlines():
-            key, time = line.split(":")
+            key, time, status = line.split(":")
             time = int(time)
             if key not in times:
                 times[key] = []
-            times[key].append(time)
+            times[key].append((time, status[:-1]))
     return times
 
 
