@@ -2,8 +2,8 @@ from cement.core.controller import CementBaseController, expose
 from cement.core.foundation import CementApp
 
 from .signs import signs
-from .vocab import vocab
-from .stats import stats
+from .vocab import training, test
+from .stats import total_asked, average_answer_time
 
 
 class VocabController(CementBaseController):
@@ -17,17 +17,35 @@ class VocabController(CementBaseController):
         print()
 
     @expose(help="")
-    def vocab(self):
-        vocab()
+    def training(self):
+        training(None)
         print()
 
     @expose(help="")
-    def stats(self):
-        stats()
+    def test(self):
+        test(None)
+        print()
+
+
+class StatisticsController(CementBaseController):
+    class Meta:
+        label = 'stats'
+        arguments = []
+        stacked_on = 'base'
+        stacked_type = 'nested'
+        description = 'Statistics'
+
+    @expose(help="")
+    def total_asked(self):
+        total_asked()
+
+    @expose(help="")
+    def average_time(self):
+        average_answer_time()
 
 
 class VocabApp(CementApp):
     class Meta:
-        label = 'Vocabulary-Trainer'
+        label = 'vocab_trainer'
         base_controller = 'base'
-        handlers = [VocabController]
+        handlers = [VocabController, StatisticsController]
