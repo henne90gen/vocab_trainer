@@ -9,7 +9,16 @@ from .stats import total_asked, average_answer_time
 class VocabController(CementBaseController):
     class Meta:
         label = 'base'
-        arguments = []
+        arguments = [
+            (['-l', '--language'],
+             dict(help='0=Japanese, 1=German', action='store')),
+        ]
+
+    def get_language(self):
+        lang = self.app.pargs.language
+        if not lang or lang not in ['0', '1']:
+            return None
+        return int(lang)
 
     @expose(help="")
     def signs(self):
@@ -18,12 +27,14 @@ class VocabController(CementBaseController):
 
     @expose(help="")
     def training(self):
-        training(None)
+        lang = self.get_language()
+        training(lang)
         print()
 
     @expose(help="")
     def test(self):
-        test(None)
+        lang = self.get_language()
+        test(lang)
         print()
 
 

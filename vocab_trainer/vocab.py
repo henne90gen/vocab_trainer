@@ -10,12 +10,12 @@ def select_random(arr):
     return arr[index], index
 
 
-def select_vocab(vocab_table, lang=None):
+def select_vocab(vocab_table, lang):
     rand_vocab, v_index = select_random(vocab_table)
 
-    if lang:
+    if lang == 0 or lang == 1:
         rand_language = rand_vocab[lang]
-        l_index = int(not lang)
+        l_index = int(lang)
     else:
         rand_language, l_index = select_random(rand_vocab)
 
