@@ -11,7 +11,7 @@ setup(
     version="0.0.1",
     author="Hendrik Müller",
     author_email="henne90gen@gmail.com",
-    packages=['vocab_trainer'],
+    packages=['vocab_trainer', 'tests'],
     install_requires=['cement', 'matplotlib'],
     long_description=read('README.md'),
     description="Command line application for practicing vocabulary",
