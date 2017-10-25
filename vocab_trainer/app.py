@@ -1,6 +1,7 @@
 from cement.core.controller import CementBaseController, expose
 from cement.core.foundation import CementApp
 
+from vocab_trainer.util import load_vocab
 from .signs import signs
 from .vocab import training, test
 from .stats import total_asked, average_answer_time
@@ -10,6 +11,8 @@ class VocabController(CementBaseController):
     class Meta:
         label = 'base'
         arguments = [
+            (['-c', '--chapter'],
+             dict(help='chapter to select', action='store')),
             (['-l', '--language'],
              dict(help='0=Japanese, 1=German', action='store')),
         ]
@@ -20,6 +23,15 @@ class VocabController(CementBaseController):
             return None
         return int(lang)
 
+    def get_chapter(self):
+        return self.app.pargs.chapter
+
+    @expose(help="Lists all available chapters")
+    def list(self):
+        vocab = load_vocab()
+        print("There are", len(vocab.keys()), "chapters.")
+        print(', '.join(vocab.keys()))
+
     @expose(help="")
     def signs(self):
         signs()
@@ -27,14 +39,16 @@ class VocabController(CementBaseController):
 
     @expose(help="")
     def training(self):
+        chapter = self.get_chapter()
         lang = self.get_language()
-        training(lang)
+        training(chapter, lang)
         print()
 
     @expose(help="")
     def test(self):
+        chapter = self.get_chapter()
         lang = self.get_language()
-        test(lang)
+        test(chapter, lang)
         print()
 
 
@@ -44,7 +58,7 @@ class StatisticsController(CementBaseController):
         arguments = []
         stacked_on = 'base'
         stacked_type = 'nested'
-        description = 'Statistics'
+        description = 'Awesome statistics'
 
     @expose(help="")
     def total_asked(self):

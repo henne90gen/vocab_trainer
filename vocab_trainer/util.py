@@ -4,10 +4,29 @@ from datetime import datetime
 TIME_FORMAT = "%d/%m/%Y"
 
 
-def load_vocab():
-    vocab_table = []
-    with open('./vocab.txt', 'r') as f:
+def combine_lessons(vocab):
+    result = []
+    for v in vocab.values():
+        result += v
+    return result
+
+
+def flatten_vocab(vocab: dict) -> list:
+    all_lessons = combine_lessons(vocab)
+    return list(map(lambda x: x[0] + x[1], all_lessons))
+
+
+def load_vocab(filename: str = './vocab.txt') -> dict:
+    vocab_table = {}
+    current_table = []
+    with open(filename, 'r') as f:
         for line in f.readlines():
+            if line[0] == '-':
+                key = line[1:].strip("\n")
+                vocab_table[key] = current_table.copy()
+                current_table.clear()
+                continue
+
             japanese, german = line.split('|')
 
             def to_list(word):
@@ -15,17 +34,17 @@ def load_vocab():
 
             japanese = to_list(japanese)
             german = to_list(german)
-            vocab_table.append((japanese, german))
+            current_table.append((japanese, german))
     return vocab_table
 
 
-def load_times():
+def load_times(filename: str = './times.txt'):
     times = {}
 
-    if not os.path.exists('./times.txt'):
+    if not os.path.exists(filename):
         return times
 
-    with open('./times.txt', 'r') as f:
+    with open(filename, 'r') as f:
         for line in f.readlines():
             date, key, time, status = line.split(":")
             time = float(time)

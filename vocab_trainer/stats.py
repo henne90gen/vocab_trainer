@@ -1,15 +1,11 @@
-from .util import load_times, load_vocab
+from .util import load_times, load_vocab, flatten_vocab
 from matplotlib import pyplot as plt
-
-
-def combine_languages(vocab):
-    return list(map(lambda x: x[0] + x[1], vocab))
 
 
 def average_answer_time():
     times = load_times()
     vocab = load_vocab()
-    vocab = combine_languages(vocab)
+    vocab = flatten_vocab(vocab)
 
     data = []
     for v in vocab:
@@ -37,13 +33,14 @@ def average_answer_time():
 
     plt.xticks(indices, vocab, rotation=90)
     plt.ylabel("Average time")
+    plt.subplots_adjust(bottom=0.3, top=0.975, left=0.1, right=0.975)
     plt.show()
 
 
 def total_asked():
     times = load_times()
     vocab = load_vocab()
-    vocab = combine_languages(vocab)
+    vocab = flatten_vocab(vocab)
     correct_data = []
     incorrect_data = []
 
@@ -65,9 +62,10 @@ def total_asked():
 
     indices = range(len(vocab))
 
-    plt.bar(x=indices, height=correct_data, color='g')
-    plt.bar(x=indices, height=incorrect_data, bottom=correct_data, color='r')
+    plt.bar(x=indices, height=correct_data, bottom=incorrect_data, color='g')
+    plt.bar(x=indices, height=incorrect_data, color='r')
 
     plt.xticks(indices, vocab, rotation=90)
     plt.ylabel("Average time")
+    plt.subplots_adjust(bottom=0.3, top=0.975, left=0.1, right=0.975)
     plt.show()
