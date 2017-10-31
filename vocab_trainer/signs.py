@@ -4,18 +4,34 @@ from cement.core.exc import CaughtSignal
 
 from .util import Timer
 
-syllable_table = ['a', 'i', 'u', 'e', 'o',  #
-                  'ka', 'ga', 'sa', 'za', 'ta', 'da', 'na',  #
-                  'ki', 'gi', 'shi', 'ji', 'chi', 'di', 'ni',  #
-                  'ku', 'gu', 'su', 'zu', 'tu', 'du', 'nu',  #
-                  'ke', 'ge', 'se', 'ze', 'te', 'de', 'ne',  #
-                  'ko', 'go', 'so', 'zo', 'to', 'do', 'no']
+syllable_table = ['a', 'ka', 'ga', 'sa', 'za', 'ta', 'da', 'na', 'ha', 'ba', 'pa', 'ma', 'ra',  #
+                  'i', 'ki', 'gi', 'shi', 'ji', 'chi', 'di', 'ni', 'hi', 'bi', 'pi', 'mi', 'ri',  #
+                  'u', 'ku', 'gu', 'su', 'zu', 'tsu', 'du', 'nu', 'hu', 'bu', 'pu', 'mu', 'ru',  #
+                  'e', 'ke', 'ge', 'se', 'ze', 'te', 'de', 'ne', 'he', 'be', 'pe', 'me', 're',  #
+                  'o', 'ko', 'go', 'so', 'zo', 'to', 'do', 'no', 'ho', 'bo', 'po', 'mo', 'ro',  #
+                  'ya', 'kya', 'gya', 'sha', 'ja', 'cha', 'dya', 'nya', 'hya', 'bya', 'pya', 'mya', 'rya',  #
+                  'yu', 'kyu', 'gyu', 'shu', 'ju', 'chu', 'dyu', 'nyu', 'hyu', 'byu', 'pyu', 'myu', 'ryu',  #
+                  'yo', 'kyo', 'gyo', 'sho', 'jo', 'cho', 'dyo', 'nyo', 'hyo', 'byo', 'pyo', 'myo', 'ryo',  #
+                  'wa', 'wo', 'n']
 
 
-def signs():
+def get_choice_table(sign_choice: str) -> list:
+    result = []
+    for sign in syllable_table:
+        if sign[0] in sign_choice:
+            result.append(sign)
+    return result
+
+
+def signs(sign_choice: str):
     while True:
-        index = randrange(len(syllable_table))
-        syllable = syllable_table[index]
+        if not sign_choice:
+            index = randrange(len(syllable_table))
+            syllable = syllable_table[index]
+        else:
+            table = get_choice_table(sign_choice)
+            index = randrange(len(table))
+            syllable = table[index]
 
         with Timer(syllable) as t:
             try:

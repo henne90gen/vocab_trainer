@@ -15,6 +15,8 @@ class VocabController(CementBaseController):
              dict(help='chapter to select', action='store')),
             (['-l', '--language'],
              dict(help='0=Japanese, 1=German', action='store')),
+            (['sign_string'],
+             dict(action='store', nargs='?'))
         ]
 
     def get_language(self):
@@ -34,7 +36,7 @@ class VocabController(CementBaseController):
 
     @expose(help="")
     def signs(self):
-        signs()
+        signs(self.app.pargs.sign_string)
         print()
 
     @expose(help="")

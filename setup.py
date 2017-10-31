@@ -15,12 +15,4 @@ setup(
     install_requires=['cement', 'matplotlib'],
     long_description=read('README.md'),
     description="Command line application for practicing vocabulary",
-    # license="BSD",
-    # keywords="example documentation tutorial",
-    # url="http://packages.python.org/an_example_pypi_project",
-    # classifiers=[
-    #     "Development Status :: 3 - Alpha",
-    #     "Topic :: Utilities",
-    #     "License :: OSI Approved :: BSD License",
-    # ],
 )
