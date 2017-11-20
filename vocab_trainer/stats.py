@@ -33,7 +33,7 @@ def average_answer_time():
 
     plt.xticks(indices, vocab, rotation=90)
     plt.ylabel("Average time")
-    plt.subplots_adjust(bottom=0.3, top=0.975, left=0.1, right=0.975)
+    plt.subplots_adjust(bottom=0.3, top=0.975, left=0.05, right=0.975)
     plt.show()
 
 
@@ -66,6 +66,6 @@ def total_asked():
     plt.bar(x=indices, height=incorrect_data, color='r')
 
     plt.xticks(indices, vocab, rotation=90)
-    plt.ylabel("Average time")
-    plt.subplots_adjust(bottom=0.3, top=0.975, left=0.1, right=0.975)
+    plt.ylabel("Times asked")
+    plt.subplots_adjust(bottom=0.3, top=0.975, left=0.05, right=0.975)
     plt.show()

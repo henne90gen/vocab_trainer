@@ -12,7 +12,7 @@ setup(
     author="Hendrik Müller",
     author_email="henne90gen@gmail.com",
     packages=['vocab_trainer', 'tests'],
-    install_requires=['cement', 'matplotlib'],
+    install_requires=['cement', 'matplotlib', 'romkan'],
     long_description=read('README.md'),
     description="Command line application for practicing vocabulary",
 )

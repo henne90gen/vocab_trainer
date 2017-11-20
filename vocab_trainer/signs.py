@@ -1,5 +1,6 @@
 from random import randrange
 
+import romkan
 from cement.core.exc import CaughtSignal
 
 from .util import Timer
@@ -23,6 +24,21 @@ def get_choice_table(sign_choice: str) -> list:
     return result
 
 
+def signs_test(sign_choice: str):
+    if not sign_choice:
+        choice_table = syllable_table
+    else:
+        choice_table = get_choice_table(sign_choice)
+
+    while len(choice_table) > 0:
+
+        index = randrange(len(choice_table))
+        syllable = choice_table.pop(index)
+
+        if ask_sign(syllable):
+            break
+
+
 def signs(sign_choice: str):
     while True:
         if not sign_choice:
@@ -33,21 +49,29 @@ def signs(sign_choice: str):
             index = randrange(len(table))
             syllable = table[index]
 
-        with Timer(syllable) as t:
-            try:
-                command = input(syllable)
+        if ask_sign(syllable):
+            break
 
-                if command == 'q':
-                    break
-                elif command == 'c':
-                    t.correct()
-                elif command == 'i':
-                    t.incorrect()
 
-            except KeyboardInterrupt:
-                break
-            except CaughtSignal:
-                break
+def ask_sign(syllable):
+    with Timer(syllable) as t:
+        try:
+            command = input(syllable)
+
+            if command == 'q':
+                return True
+            elif command == 'c':
+                t.correct()
+            elif command == 'i':
+                t.incorrect()
+
+            print(romkan.to_hiragana(syllable))
+            print()
+
+        except KeyboardInterrupt:
+            return True
+        except CaughtSignal:
+            return True
 
 
 def generate_syllable_table():

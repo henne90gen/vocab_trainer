@@ -2,7 +2,7 @@ from cement.core.controller import CementBaseController, expose
 from cement.core.foundation import CementApp
 
 from vocab_trainer.util import load_vocab
-from .signs import signs
+from .signs import signs, signs_test
 from .vocab import training, test
 from .stats import total_asked, average_answer_time
 
@@ -37,6 +37,11 @@ class VocabController(CementBaseController):
     @expose(help="")
     def signs(self):
         signs(self.app.pargs.sign_string)
+        print()
+
+    @expose(help="")
+    def signs_test(self):
+        signs_test(self.app.pargs.sign_string)
         print()
 
     @expose(help="")
